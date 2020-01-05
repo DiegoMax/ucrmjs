@@ -1,6 +1,6 @@
 {
   "name": "@diegomax/ucrmjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wrapper library around Ubiquiti's UCRM Rest API",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/DiegoMax/ucrmjs#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8"

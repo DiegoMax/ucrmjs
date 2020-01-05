@@ -3,11 +3,10 @@ const rp = require('request-promise-native');
 const _ = require('lodash');
 
 module.exports = class UCRMApi {
-  constructor(config) {
-    this.config = config;
+  constructor() {
     this.url =
-      (this.config.use_ssl ? 'https://' : 'http://') +
-      this.config.fqdn +
+      (process.env.UCRM_SSL ? 'https://' : 'http://') +
+      process.env.UCRM_FQDN +
       '/api/v1.0';
   }
 
@@ -15,7 +14,7 @@ module.exports = class UCRMApi {
     let options = {
       baseUrl: this.url,
       headers: {
-        'X-Auth-App-Key': this.config.app_token,
+        'X-Auth-App-Key': process.env.UCRM_APP_TOKEN,
       },
       json: true,
     };
