@@ -1,17 +1,25 @@
 {
-  "name": "ucrmjs",
-  "version": "1.0.0",
-  "description": "Wrapper for Ubiquiti UCRM API",
+  "name": "@diegomax/ucrmjs",
+  "version": "0.0.1",
+  "description": "Wrapper library around Ubiquiti's UCRM Rest API",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoMax/ucrmjs.git"
+  },
   "keywords": [
-    "ubiquiti",
     "ucrm",
-    "crm",
+    "ubiquiti",
+    "rest",
     "api"
   ],
   "author": "Diego Massanti",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiegoMax/ucrmjs/issues"
+  },
+  "homepage": "https://github.com/DiegoMax/ucrmjs#readme"
 }
