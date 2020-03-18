@@ -8,6 +8,9 @@ module.exports = class UCRMApi {
       (process.env.UCRM_SSL ? 'https://' : 'http://') +
       process.env.UCRM_FQDN +
       '/api/v1.0';
+      console.log(
+        `UCRM Connector instance up and ready for ${process.env.UCRM_FQDN}`,
+      );
   }
 
   getRequest(params = {}) {
