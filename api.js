@@ -33,11 +33,52 @@ module.exports = class UCRMApi {
     }).get(`/clients`);
   }
 
+  getClientsByCustomAttribute(attributeKey, attributeValue) {
+    return this.getRequest({
+      qs: {
+        customAttributeKey: attributeKey,
+        customAttributeValue: attributeValue,
+      },
+    }).get(`/clients`);
+  }
+
+  getCustomAttributeForClient(clientId, attributeKey) {}
+
   findClient(queryString = '') {
     return this.getRequest({
       qs: {
         query: queryString,
       },
     }).get(`/mobile/clients/search`);
+  }
+
+  getOrganizationById(id) {
+    return this.getRequest().get(`/organizations/${id}`);
+  }
+
+  getInvoiceTemplates() {
+    return this.getRequest().get(`/invoice-templates`);
+  }
+
+  getCustomAttributes() {
+    return this.getRequest().get(`/custom-attributes`);
+  }
+
+  getServices() {
+    return this.getRequest().get(`/clients/services`);
+  }
+
+  patchInvoice(id, data) {
+    return this.getRequest({
+      body: data,
+    }).patch(`/invoices/${id}`);
+  }
+
+  regenerateInvoicePdf(id) {
+    return this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
+  }
+
+  sendInvoice(id) {
+    return this.getRequest().patch(`/invoices/${id}/send`);
   }
 };
