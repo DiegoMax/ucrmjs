@@ -84,4 +84,18 @@ module.exports = class UCRMApi {
   sendInvoice(id) {
     return this.getRequest().patch(`/invoices/${id}/send`);
   }
+
+  /* HELPERS */
+
+  getServiceAttribute(service, attributeName) {
+    if (!service) return null;
+    let attr = null;
+    _.forEach(service.attributes, attribute => {
+        if (attribute.name == attributeName) {
+            attr = attribute;
+        }
+    });
+    return attr;
+  }
+  
 };
