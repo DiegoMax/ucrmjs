@@ -1,9 +1,7 @@
 # UCRMJS - Wrapper library around Ubiquiti's UCRM Rest API
 
-Description and usage to be added.
+This is a NodeJS library around Ubiquiti's UCRM API.
 
-This is very alpha code, not meant to be used in production.
-
-Provided "as is" without any kind of explicit nor implicit warranty.
+This code is in very alpha stages, API is **NOT** yet frozen and might change without notice.
 
 License: MIT.
