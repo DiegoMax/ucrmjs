@@ -13,6 +13,10 @@ module.exports = class UCRMApi {
       );
   }
 
+  /**
+   * 
+   * @param {Object} params 
+   */
   getRequest(params = {}) {
     let options = {
       baseUrl: this.url,
@@ -24,10 +28,22 @@ module.exports = class UCRMApi {
     return rp.defaults(_.merge(options, params));
   }
 
+
+  /**
+   * 
+   * @param {number} id 
+   * @description Gets a client by it's id
+   */
   getClient(id = null) {
     return this.getRequest().get(`/clients/${id}`);
   }
 
+
+  /**
+   * 
+   * @param {string} username 
+   * @description Gets a client by it's username field.
+   */
   getClientsByUserName(username) {
     return this.getRequest({
       qs: {
@@ -36,6 +52,12 @@ module.exports = class UCRMApi {
     }).get(`/clients`);
   }
 
+  /**
+   * 
+   * @param {string} attributeKey 
+   * @param {string} attributeValue 
+   * @description Gets an array of clients matching a given custom atrribute value
+   */
   getClientsByCustomAttribute(attributeKey, attributeValue) {
     return this.getRequest({
       qs: {
@@ -45,6 +67,12 @@ module.exports = class UCRMApi {
     }).get(`/clients`);
   }
 
+  /**
+   * 
+   * @param {string} queryString 
+   * @returns {Promise} Returns a promise to an array of matching clients.
+   * @description Gets a client by using an elastic search query string.
+   */
   findClient(queryString = '') {
     return this.getRequest({
       qs: {
@@ -53,24 +81,49 @@ module.exports = class UCRMApi {
     }).get(`/mobile/clients/search`);
   }
 
+  /**
+   * @returns {Promise}
+   * @description Returns a promise to an array of invoice templates
+   */
   getInvoiceTemplates() {
     return this.getRequest().get(`/invoice-templates`);
   }
 
+  /**
+   * @returns {Promise}
+   * @description Returns a promise to an array of custom attributes.
+   */
   getCustomAttributes() {
     return this.getRequest().get(`/custom-attributes`);
   }
 
+  /**
+   * @method getServices
+   * @returns {Promise}
+   * @description Returns a promise to an array of all stored services.
+   */
   getServices() {
     return this.getRequest().get(`/clients/services`);
   }
 
+  /**
+   * @param {Number} id 
+   * @param {Object} data 
+   * @returns {Promise}
+   * @description Returns a promise to a patched invoice object.
+   */
   patchInvoice(id, data) {
     return this.getRequest({
       body: data,
     }).patch(`/invoices/${id}`);
   }
 
+  /**
+   * 
+   * @param {Number} id 
+   * @returns {Promise}
+   * @description Returns a promise with the operation result.
+   */
   regenerateInvoicePdf(id) {
     return this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
   }
