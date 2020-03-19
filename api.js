@@ -24,7 +24,7 @@ module.exports = class UCRMApi {
     return rp.defaults(_.merge(options, params));
   }
 
-  getClientById(id = null) {
+  getClient(id = null) {
     return this.getRequest().get(`/clients/${id}`);
   }
 
@@ -45,8 +45,6 @@ module.exports = class UCRMApi {
     }).get(`/clients`);
   }
 
-  getCustomAttributeForClient(clientId, attributeKey) {}
-
   findClient(queryString = '') {
     return this.getRequest({
       qs: {
@@ -54,8 +52,6 @@ module.exports = class UCRMApi {
       },
     }).get(`/mobile/clients/search`);
   }
-
-
 
   getInvoiceTemplates() {
     return this.getRequest().get(`/invoice-templates`);
