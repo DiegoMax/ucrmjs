@@ -55,9 +55,7 @@ module.exports = class UCRMApi {
     }).get(`/mobile/clients/search`);
   }
 
-  getOrganizationById(id) {
-    return this.getRequest().get(`/organizations/${id}`);
-  }
+
 
   getInvoiceTemplates() {
     return this.getRequest().get(`/invoice-templates`);
@@ -81,8 +79,20 @@ module.exports = class UCRMApi {
     return this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
   }
 
+  getInvoice(id) {
+    return this.getRequest().get(`/invoices/${id}`);
+  }
+
   sendInvoice(id) {
     return this.getRequest().patch(`/invoices/${id}/send`);
+  }
+
+  getOrganizations() {
+    return this.getRequest().get(`/organizations`);
+  }
+
+  getOrganization(id) {
+    return this.getRequest().get(`/organizations/${id}`);
   }
 
   /* HELPERS */
@@ -97,5 +107,26 @@ module.exports = class UCRMApi {
     });
     return attr;
   }
+
+  getClientAttribute(client, attributeName) {
+    if (!client) return null;
+    let attr = null;
+    _.forEach(client.attributes, attribute => {
+        if (attribute.name == attributeName) {
+            attr = attribute;
+        }
+    });
+    return attr;
+  }
   
+  getInvoiceAttribute(invoice, attributeName) {
+    if (!invoice) return null;
+    let attr = null;
+    _.forEach(invoice.attributes, attribute => {
+        if (attribute.name == attributeName) {
+            attr = attribute;
+        }
+    });
+    return attr;
+  }
 };
