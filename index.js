@@ -1,11 +1,10 @@
 'use strict';
-require('dotenv').config();
 const Api = require('./api');
 
 class Singleton {
-  constructor() {
+  constructor(config) {
     if (!Singleton.instance) {
-        Singleton.instance = new Api();
+        Singleton.instance = new Api(config);
     }
   }
 

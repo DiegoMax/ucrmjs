@@ -3,13 +3,14 @@ const rp = require('request-promise-native');
 const _ = require('lodash');
 
 module.exports = class UCRMApi {
-  constructor() {
+  constructor(config = {}) {
+    this.config = config;
     this.url =
-      (process.env.UCRM_SSL ? 'https://' : 'http://') +
-      process.env.UCRM_FQDN +
+      (this.config.ssl ? 'https://' : 'http://') +
+      this.config.fqdn +
       '/api/v1.0';
       console.log(
-        `UCRM Connector instance up and ready for ${process.env.UCRM_FQDN}`,
+        `UCRM Connector instance up and ready for ${this.config.fqdn}`,
       );
   }
 
@@ -21,7 +22,7 @@ module.exports = class UCRMApi {
     let options = {
       baseUrl: this.url,
       headers: {
-        'X-Auth-App-Key': process.env.UCRM_APP_TOKEN,
+        'X-Auth-App-Key': this.config.token,
       },
       json: true,
     };
