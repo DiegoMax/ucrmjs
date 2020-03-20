@@ -6,6 +6,10 @@ This code is in very alpha stages, API is **NOT** yet frozen and might change wi
 
 ### Example Usage
 
+```terminal
+npm install @diegomax/ucrmjs
+```
+
 ```javascript
 
 const UCRM = require('@diegomax/ucrmjs');
@@ -19,7 +23,9 @@ let config = {
     "token": "ucrmapitoken"
 }
 
-// Instantiate an UCRM instance. By using getInstance() you are assured that the same instance will always be returned (singleton behavior);
+// Instantiate an UCRM instance. 
+// By using getInstance() you are assured that the same 
+// instance will always be returned (singleton behavior);
 let ucrm = new UCRM(config).getInstance();
 
 // Get an array with all services. All methods return promises.
