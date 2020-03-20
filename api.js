@@ -145,6 +145,17 @@ module.exports = class UCRMApi {
     return this.getRequest().get(`/organizations/${id}`);
   }
 
+
+  postClientLog(id, msg) {
+    let data = {
+      clientId: id,
+      message: msg
+    };
+    return this.getRequest({
+      body: data,
+    }).post(`/client-logs`);
+  }
+
   /* HELPERS */
 
   getServiceAttribute(service, attributeName) {
