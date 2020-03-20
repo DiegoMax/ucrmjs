@@ -103,8 +103,9 @@ module.exports = class UCRMApi {
    * @returns {Promise}
    * @description Returns a promise to an array of all stored services.
    */
-  getServices() {
-    return this.getRequest().get(`/clients/services`);
+  async getServices() {
+    const res = await this.getRequest().get(`/clients/services`);
+    return res;
   }
 
   /**

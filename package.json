@@ -1,6 +1,6 @@
 {
   "name": "@diegomax/ucrmjs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Wrapper library around Ubiquiti's UCRM Rest API",
   "main": "index.js",
   "scripts": {
