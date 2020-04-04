@@ -21,6 +21,9 @@ module.exports = class UCRMApi {
   getRequest(params = {}) {
     let options = {
       baseUrl: this.url,
+      agentOptions: {
+        rejectUnauthorized: !this.config.allowSelfSigned
+      },
       headers: {
         'X-Auth-App-Key': this.config.token,
       },
