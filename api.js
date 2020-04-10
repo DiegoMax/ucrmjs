@@ -91,7 +91,7 @@ module.exports = class UCRMApi {
    */
   async findClient(queryString = '') {
     try {
-      const res = this.getRequest().get('/mobile/clients/search', {
+      const res = await this.getRequest().get('/mobile/clients/search', {
         params: {
           query: queryString
         }
@@ -151,9 +151,7 @@ module.exports = class UCRMApi {
    */
   async patchInvoice(id, data) {
     try {
-      const res = await this.getRequest().patch(`/invoices/${id}`, {
-        data: JSON.stringify(data)
-      });
+      const res = await this.getRequest().patch(`/invoices/${id}`, data);
       return res.data;
     } catch (error) {
       this.handleError(error);
@@ -168,7 +166,7 @@ module.exports = class UCRMApi {
    */
   async regenerateInvoicePdf(id) {
     try {
-      const res = this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
+      const res = await this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
       return res.data;
     } catch (error) {
       this.handleError(error);
@@ -177,7 +175,7 @@ module.exports = class UCRMApi {
 
   async getInvoice(id) {
     try {
-      const res = this.getRequest().get(`/invoices/${id}`);
+      const res = await this.getRequest().get(`/invoices/${id}`);
       return res.data;
     } catch (error) {
       this.handleError(error);
@@ -185,16 +183,31 @@ module.exports = class UCRMApi {
      
   }
 
-  sendInvoice(id) {
-    return this.getRequest().patch(`/invoices/${id}/send`);
+  async sendInvoice(id) {
+    try {
+      const res = await this.getRequest().patch(`/invoices/${id}/send`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
-  getOrganizations() {
-    return this.getRequest().get(`/organizations`);
+  async getOrganizations() {
+    try {
+      const res = await this.getRequest().get(`/organizations/`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
-  getOrganization(id) {
-    return this.getRequest().get(`/organizations/${id}`);
+  async getOrganization(id) {
+    try {
+      const res = await this.getRequest().get(`/organizations/${id}`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async getServicePlan(id) {
@@ -214,9 +227,7 @@ module.exports = class UCRMApi {
       message: msg
     };
     try {
-      const res = await this.getRequest().post('/client-logs', {
-        data: JSON.stringify(data)
-      })
+      const res = await this.getRequest().post('/client-logs', data);
       return res.data;
     } catch (error) {
       this.handleError(error);
