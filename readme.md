@@ -19,7 +19,9 @@ let config = {
     "fqdn": "your.ucrmdomain.com",
     // Boolean: Connect using SSL
     "ssl": true,
-    // API Token (You can generate one from UCRM's "System > Security")
+    // Allows the use of self-signed SSL certificates
+    "allowSelfSigned": true,
+    // API Token (You can generate one from UCRM's "System > Security"),
     "token": "ucrmapitoken"
 }
 
