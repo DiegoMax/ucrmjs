@@ -1,6 +1,6 @@
 'use strict';
-const rp = require('request-promise-native');
 const _ = require('lodash');
+const axios = require('axios').default;
 
 module.exports = class UCRMApi {
   constructor(config = {}) {
@@ -12,34 +12,36 @@ module.exports = class UCRMApi {
       console.log(
         `UCRM Connector instance up and ready for ${this.config.fqdn}`,
       );
+
+    this.getRequest = function() {
+      const instance = axios.create({
+        baseURL: this.url,
+        timeout: 1000,
+        headers: {'X-Auth-App-Key': this.config.token},
+        timeout: 3000
+      });
+      return instance;
+    }
   }
 
-  /**
-   * 
-   * @param {Object} params 
-   */
-  getRequest(params = {}) {
-    let options = {
-      baseUrl: this.url,
-      agentOptions: {
-        rejectUnauthorized: !this.config.allowSelfSigned
-      },
-      headers: {
-        'X-Auth-App-Key': this.config.token,
-      },
-      json: true,
-    };
-    return rp.defaults(_.merge(options, params));
+  handleError(err) {
+    console.error(err);
+    throw err;
   }
 
-
+ 
   /**
    * 
    * @param {number} id 
    * @description Gets a client by it's id
    */
-  getClient(id = null) {
-    return this.getRequest().get(`/clients/${id}`);
+  async getClient(id = null) {
+    try {
+      const res = await this.getRequest().get(`/clients/${id}`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
 
@@ -48,12 +50,17 @@ module.exports = class UCRMApi {
    * @param {string} username 
    * @description Gets a client by it's username field.
    */
-  getClientsByUserName(username) {
-    return this.getRequest({
-      qs: {
-        username: username,
-      },
-    }).get(`/clients`);
+  async getClientsByUserName(username) {
+    try {
+      const res = await this.getRequest().get('/clients', {
+        params: {
+          username: username
+        }
+      });
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /**
@@ -62,13 +69,18 @@ module.exports = class UCRMApi {
    * @param {string} attributeValue 
    * @description Gets an array of clients matching a given custom atrribute value
    */
-  getClientsByCustomAttribute(attributeKey, attributeValue) {
-    return this.getRequest({
-      qs: {
-        customAttributeKey: attributeKey,
-        customAttributeValue: attributeValue,
-      },
-    }).get(`/clients`);
+  async getClientsByCustomAttribute(attributeKey, attributeValue) {
+    try {
+      const res = await this.getRequest().get('/clients', {
+        params: {
+          customAttributeKey: attributeKey,
+          customAttributeValue: attributeValue,
+        }
+      });
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /**
@@ -77,28 +89,43 @@ module.exports = class UCRMApi {
    * @returns {Promise} Returns a promise to an array of matching clients.
    * @description Gets a client by using an elastic search query string.
    */
-  findClient(queryString = '') {
-    return this.getRequest({
-      qs: {
-        query: queryString,
-      },
-    }).get(`/mobile/clients/search`);
+  async findClient(queryString = '') {
+    try {
+      const res = this.getRequest().get('/mobile/clients/search', {
+        params: {
+          query: queryString
+        }
+      });
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /**
    * @returns {Promise}
    * @description Returns a promise to an array of invoice templates
    */
-  getInvoiceTemplates() {
-    return this.getRequest().get(`/invoice-templates`);
+  async getInvoiceTemplates() {
+    try {
+      const res = await this.getRequest().get(`/invoice-templates`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /**
    * @returns {Promise}
    * @description Returns a promise to an array of custom attributes.
    */
-  getCustomAttributes() {
-    return this.getRequest().get(`/custom-attributes`);
+  async getCustomAttributes() {
+    try {
+      const res = await this.getRequest().get(`/custom-attributes`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /**
@@ -107,8 +134,13 @@ module.exports = class UCRMApi {
    * @description Returns a promise to an array of all stored services.
    */
   async getServices() {
-    const res = await this.getRequest().get(`/clients/services`);
-    return res;
+    try {
+      const response = await this.getRequest().get('/clients/services');
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   /**
@@ -117,10 +149,15 @@ module.exports = class UCRMApi {
    * @returns {Promise}
    * @description Returns a promise to a patched invoice object.
    */
-  patchInvoice(id, data) {
-    return this.getRequest({
-      body: data,
-    }).patch(`/invoices/${id}`);
+  async patchInvoice(id, data) {
+    try {
+      const res = await this.getRequest().patch(`/invoices/${id}`, {
+        data: JSON.stringify(data)
+      });
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /**
@@ -129,12 +166,23 @@ module.exports = class UCRMApi {
    * @returns {Promise}
    * @description Returns a promise with the operation result.
    */
-  regenerateInvoicePdf(id) {
-    return this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
+  async regenerateInvoicePdf(id) {
+    try {
+      const res = this.getRequest().patch(`/invoices/${id}/regenerate-pdf`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
-  getInvoice(id) {
-    return this.getRequest().get(`/invoices/${id}`);
+  async getInvoice(id) {
+    try {
+      const res = this.getRequest().get(`/invoices/${id}`);
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+     
   }
 
   sendInvoice(id) {
@@ -149,15 +197,30 @@ module.exports = class UCRMApi {
     return this.getRequest().get(`/organizations/${id}`);
   }
 
+  async getServicePlan(id) {
+    try {
+      const response = await this.getRequest().get(`/service-plans/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 
-  postClientLog(id, msg) {
+
+  async postClientLog(id, msg) {
     let data = {
       clientId: id,
       message: msg
     };
-    return this.getRequest({
-      body: data,
-    }).post(`/client-logs`);
+    try {
+      const res = await this.getRequest().post('/client-logs', {
+        data: JSON.stringify(data)
+      })
+      return res.data;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   /* HELPERS */
