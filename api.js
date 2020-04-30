@@ -16,9 +16,8 @@ module.exports = class UCRMApi {
     this.getRequest = function() {
       const instance = axios.create({
         baseURL: this.url,
-        timeout: 1000,
         headers: {'X-Auth-App-Key': this.config.token},
-        timeout: 3000
+        timeout: 10000
       });
       return instance;
     }
